@@ -8,14 +8,13 @@
 
 ## Description
 
-This project extracts real-time post trends and stores them in a database. The project uses natural language processing techniques to analyze the posts and extract trends. The trends are stored in Supabase for later querying.
+This project now provides a **Python/Jupyter Notebook** implementation for extracting real-time post trends. The notebook mirrors the original TypeScript pipeline: it preprocesses text, filters stopwords/blacklisted terms, extracts n-grams (words, short phrases, hashtags), and ranks trends inside a rolling time window. Use it as a starting point for experimentation or as the basis for a lightweight API.
 
 ## Technologies Used
 
-- **Supabase**: Database to store the trends.
-- **Compromise**: NLP library for text processing.
-- **Google Gemini**: Generative AI API to classify topics.
-<!-- - **Web Workers**: For parallel processing of posts. -->
+- **Python 3 + Jupyter**: Interactive environment for experimenting with trend extraction.
+- **Standard library** only in the notebook (no external dependencies required to run the demo).
+- **Existing TypeScript assets** are still present for reference.
 
 ## Features
 
@@ -27,13 +26,12 @@ This project extracts real-time post trends and stores them in a database. The p
 
 ## Requirements
 
-- **Node.js**: Install [Node.js](https://nodejs.org/) to run the project.
-- **Supabase (optional)**: Set up an account on [Supabase](https://supabase.com/) and obtain the necessary credentials.
-- **Google Gemini API Key (optional)**: Set up an account on [Google Cloud](https://cloud.google.com/) and create a project with the _Generative Language API (Gemini API)_ enabled and obtain the API key from https://aistudio.google.com/app/apikey.
+- **Python 3.10+**
+- **Jupyter Notebook** (`pip install notebook`)
 
-The use of **Supabase** is optional and **Google Gemini** is used only to classify topics. You can replace these services with others of your choice.
+The notebook demo relies only on the Python standard library and reuses the project’s existing stopword/blacklist assets for filtering.
 
-## Installation
+## Installation & Usage (Python Notebook)
 
 1. Clone the repository:
 
@@ -42,45 +40,21 @@ The use of **Supabase** is optional and **Google Gemini** is used only to classi
     cd Bsky-Trends
     ```
 
-2. Set up the environment variables in the `.env` file:
+2. Install Jupyter (if you don’t have it):
 
     ```sh
-    SUPABASE_URL=your_supabase_url
-    SVC_KEY=your_supabase_key
-    GOOGLE_API_KEY=your_google_api_key
-    DEV=true # Set to false in production
+    pip install notebook
     ```
-3. Create a Supabase table named `trends` with the following columns:
 
-    - `id`
-    - `trend` (jsonb)
-    - `lang` (text)
-    - `updated_at` (TIMESTAMPZ)
-4. Create a Supabase Storage bucket named `checkpoints` to store the trends checkpoints that are used to the server to recover the trends in case of a restart.
-
-## Usage
-
-1. Install the dependencies:
+3. Start Jupyter and open the notebook:
 
     ```sh
-    npm install
-    ```
-    or
-    ```sh
-    bun install
+    jupyter notebook bsky_trends.ipynb
     ```
 
-2. Start the WebSocket client to listen to posts:
+4. Run the cells to see a demo of the in-memory trend tracker that processes sample Portuguese/English posts. Replace the `sample_posts` list in the notebook with your own Bluesky feed to experiment.
 
-    ```sh
-    npm run start
-    ```
-    or
-    ```sh
-    bun server.ts
-    ```
-
-    Now make GET requests to `http://localhost:8003/trending` to get the trends.
+> The original TypeScript server remains in the repository for reference but is no longer required for the Python notebook workflow.
 
 ## Feature Explanation
 
