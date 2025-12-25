@@ -8,13 +8,12 @@
 
 ## Description
 
-This project now provides a **Python/Jupyter Notebook** implementation for extracting real-time post trends. The notebook mirrors the original TypeScript pipeline: it preprocesses text, filters stopwords/blacklisted terms, extracts n-grams (words, short phrases, hashtags), and ranks trends inside a rolling time window. Use it as a starting point for experimentation or as the basis for a lightweight API.
+This project now provides a **Python/Jupyter Notebook** implementation for extracting real-time post trends. The notebooks mirror the original pipeline: they preprocess text, filter stopwords/blacklisted terms, extract n-grams (words, short phrases, hashtags), and rank trends inside a rolling time window. Use them as a starting point for experimentation or as the basis for a lightweight API.
 
 ## Technologies Used
 
 - **Python 3 + Jupyter**: Interactive environment for experimenting with trend extraction.
-- **Standard library** only in the notebook (no external dependencies required to run the demo).
-- **Existing TypeScript assets** are still present for reference.
+- **Standard library** only in the notebooks (no external dependencies required to run the demo).
 
 ## Features
 
@@ -29,7 +28,7 @@ This project now provides a **Python/Jupyter Notebook** implementation for extra
 - **Python 3.10+**
 - **Jupyter Notebook** (`pip install notebook`)
 
-The notebook demo relies only on the Python standard library and reuses the project’s existing stopword/blacklist assets for filtering.
+The notebook demos rely only on the Python standard library and reuse the project’s stopword/blacklist assets for filtering.
 
 ## Installation & Usage (Python Notebook)
 
@@ -46,15 +45,19 @@ The notebook demo relies only on the Python standard library and reuses the proj
     pip install notebook
     ```
 
-3. Start Jupyter and open the notebook:
+3. Start Jupyter and open the notebooks:
 
     ```sh
-    jupyter notebook bsky_trends.ipynb
+    jupyter notebook notebooks/trend_extraction.ipynb
     ```
 
 4. Run the cells to see a demo of the in-memory trend tracker that processes sample Portuguese/English posts. Replace the `sample_posts` list in the notebook with your own Bluesky feed to experiment.
 
-> The original TypeScript server remains in the repository for reference but is no longer required for the Python notebook workflow.
+5. Open the heat scoring notebook to train and score posts from historical data:
+
+    ```sh
+    jupyter notebook notebooks/heat_model.ipynb
+    ```
 
 ## Feature Explanation
 
@@ -72,7 +75,7 @@ The extracted topics are classified using Google Gemini AI. The classification i
 
 ### Trend Storage
 
-The trends are stored in Supabase. The storage is done through the `services/saveTrends.ts` file.
+The notebook keeps trends in memory for exploration. Persisting to a database can be added as a follow-up step if needed.
 
 <!-- ### Parallel Processing
 
@@ -85,4 +88,3 @@ The project also has a public API to get the trends. The API documentation is av
 ## Contribution
 
 Contributions are welcome! Feel free to open issues and pull requests.
-
