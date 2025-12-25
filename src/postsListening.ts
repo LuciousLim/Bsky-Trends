@@ -11,6 +11,7 @@ import { filterSentences, filterWords } from "./utils/filter.ts";
 import { updateSketches } from "./trends/ngrams.ts";
 import { extractWords } from "./trends/words.ts"; // Importando o identificador de entidades
 import { extractHashtags } from "./trends/hashtags.ts";
+import { getHeatScore, recordHeatPrediction } from "./services/heatModelService.ts";
 
 /**
  * Function to create a WebSocket client to listen to posts
@@ -54,6 +55,16 @@ async function createWebSocketClient(): Promise<void> {
                         const words = filterWords(extractWords(processedText), lang);
                         const hashtags = filterWords(extractHashtags(processedText), lang);
                         updateSketches({ words, phrases, hashtags }, date, lang as 'pt' | 'en');
+
+                        const heatScore = getHeatScore(txt);
+                        if (heatScore !== null) {
+                            recordHeatPrediction({
+                                text: txt,
+                                score: heatScore,
+                                createdAt: payload.createdAt,
+                                lang,
+                            });
+                        }
 
                         postCount++;
                         const elapsedTime = (Date.now() - startTime) / 1000;
